@@ -9,6 +9,7 @@ using namespace std;
 #define key_Up		72
 #define key_Down	80
 #define key_Enter	13
+#define key_ESC		27
 struct Sach {
 	int MaSach;
 	char TenSach[50];
@@ -35,7 +36,6 @@ struct ThongKe {
 };
 void Xuat_1Sach(Sach a);
 void Label(int time);
-void ThucThi();
 void DocFile(Sach DS_Sach[], int& n);
 void HienThiKhoSach(Sach DS_Sach[], int n);
 void Nhap1Sach(Sach& a);
@@ -61,3 +61,5 @@ void gotoXY(int column, int line);
 int whereX();
 int whereY();
 void TextColor(int color);
+void ShowCur(bool CursorVisibility);
+void DisableResizeWindow();
