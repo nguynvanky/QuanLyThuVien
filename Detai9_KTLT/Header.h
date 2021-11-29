@@ -57,9 +57,12 @@ int TacGia_Max_Sach(ThongKe TK[], int nTG);
 int NhaXuatBan_Max_Sach(ThongKe TK[], int nNXB);
 int NamXB_Max_Sach(ThongKe TK[], int nNamXB);
 void Menu(int time);
+#pragma region SetUpRegion
 void gotoXY(int column, int line);
 int whereX();
 int whereY();
 void TextColor(int color);
 void ShowCur(bool CursorVisibility);
 void DisableResizeWindow();
+#pragma endregion
+
