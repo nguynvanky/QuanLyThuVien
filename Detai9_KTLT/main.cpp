@@ -8,9 +8,10 @@ int main()
 	DisableResizeWindow();
 	// để in ra được kí tự trong txt
 	SetConsoleOutputCP(65001);
+	//system("mode con: cols=209 lines=50");
 	system("cls");
 #pragma endregion
-	int chon, x, y, vitriMax, n = 0, sapxep;
+	int chon, x, y, vitriMax, n = 0, sapxep = 0;
 	Sach* DS_Sach = new Sach[MAX];
 	ThongKe* TK = new ThongKe[MAX];
 	int nNamXB = 0, nTG = 0, nNXB = 0;
@@ -50,13 +51,16 @@ int main()
 			break;
 		case 6:
 			SapXepTangGiam(DS_Sach, n, sapxep);
-			sort = true;
+			if (sapxep != 3)
+				sort = true;
+			else
+				sort = false;
 			break;
 		case 7:
 			if (sort == true)
 				TimKiemSach(DS_Sach, n, sapxep);
 			else
-				printf("Ban phai sap xep truoc khi tim kiem\n");
+				printf("Ban phai sap xep theo ma sach truoc khi tim kiem\n");
 			break;
 		case 8:
 			ThongKeSoLuong(TK, DS_Sach, n, nNamXB, nTG, nNXB);
