@@ -36,7 +36,7 @@ void Menu(int time)
 	TextColor(15);
 	gotoXY(x, y);
 	Sleep(time);
-	printf("1.  Doc file");
+	printf("1.  Doc file kho sach");
 	y++;
 	gotoXY(x, y);
 	Sleep(time);
@@ -56,7 +56,7 @@ void Menu(int time)
 	y++;
 	gotoXY(x, y);
 	Sleep(time);
-	printf("6.  Sap xep(tang, giam)");
+	printf("6.  Sap xep(tang, giam, tac gia)");
 	y++;
 	gotoXY(x, y);
 	Sleep(time);
@@ -245,8 +245,6 @@ void ThemSach(Sach DS_Sach[], int& n)
 		printf("Da them...\n");
 	}
 }
-
-
 void XoaSach(Sach DS_Sach[], int& n)
 {
 	if (n == 0)
@@ -256,7 +254,6 @@ void XoaSach(Sach DS_Sach[], int& n)
 	else
 	{
 		int masach;
-		bool xoa = false;
 		printf("Nhap ma sach ban muon xoa: ");
 		scanf_s("%d", &masach);
 		for (int i = 0; i < n; i++)
@@ -268,18 +265,11 @@ void XoaSach(Sach DS_Sach[], int& n)
 					DS_Sach[j] = DS_Sach[j + 1];
 				}
 				n--;
-				xoa = true;
-				break;
+				printf("Da xoa thanh cong\n");
+				return;
 			}
 		}
-		if (xoa == true)
-		{
-			printf("Da xoa thanh cong\n");
-		}
-		else
-		{
-			printf("Khong tim thay %d trong danh sach\n", masach);
-		}
+		printf("Khong tim thay %d trong danh sach\n", masach);
 	}
 
 }
@@ -399,12 +389,12 @@ void SapXepTangGiam(Sach DS_Sach[], int n, int& chon)
 		printf("Danh sach rong\n");
 		return;
 	}
-	// Bubble sort la tang
-	// Interchange sort la giam
+	// Bubble sort la tang (đạt)
+	// Interchange sort la giam (tuấn)
 	do {
-		printf("Ban muon sap xep tang hay giam (1. tang, 2. giam): ");
+		printf("Ban muon sap xep tang hay giam (1. tang, 2. giam, 3. theo tac gia): ");
 		scanf_s("%d", &chon);
-	} while (chon < 1 || chon > 2 && printf("Chon khong dung yeu cau, xin nhap lai!\n"));
+	} while (chon < 1 || chon > 3 && printf("Chon khong dung yeu cau, xin nhap lai!\n"));
 	if (chon == 1)
 	{
 		// bubble sort
@@ -420,17 +410,29 @@ void SapXepTangGiam(Sach DS_Sach[], int n, int& chon)
 	}
 	else if (chon == 2)
 	{
-		// interchang sort
+		// interchange sort
 		for (int i = 0; i < n - 1; i++)
 		{
 			for (int j = i; j < n; j++)
 			{
-				if (DS_Sach[i].MaSach < DS_Sach[j].MaSach)
+				if (DS_Sach[i].MaSach < DS_Sach[j].MaSach) // cặp nghịch thế
 					swap(DS_Sach[i], DS_Sach[j]);
 
 			}
 		}
 		printf("Da sap xep giam dan thanh cong\n");
+	}
+	else if (chon == 3) // sắp xếp theo tên tác giả
+	{
+		for (int i = 0; i < n - 1; i++)
+		{
+			for (int j = 0; j < n - i - 1; j++)
+			{
+				if (_strcmpi(DS_Sach[j].TenTacGia, DS_Sach[j + 1].TenTacGia) < 0)
+					swap(DS_Sach[j], DS_Sach[j + 1]);
+			}
+		}
+		printf("Da sap xep theo ten tac gia thanh cong\n");
 	}
 }
 void TimKiemSach(Sach DS_Sach[], int n, int chon)
@@ -493,7 +495,7 @@ void TimKiemSach(Sach DS_Sach[], int n, int chon)
 		printf("%d khong co trong danh sach\n", masach);
 	}
 }
-void sortTG(Sach DS_Sach[], int n)
+void sortTG(Sach DS_Sach[], int n) // ứng dụng cho thống kê
 {
 	for (int i = 0; i < n - 1; i++)
 	{
@@ -547,17 +549,17 @@ void ThongKeSoLuong(ThongKe TK[], Sach DS_Sach[], int n, int& nNamXB, int& nTG, 
 	scanf_s("%d", &chon);
 	if (chon == 1)
 	{
-		if (nTG == 0)
+		if (nTG == 0) // trường hợp nếu đã thống kê rồi thì không thống kê nữa
 		{
 			sortTG(temp, n);
 			for (int i = 1; i < n; i++)
 			{
-				strcpy_s(TK[nTG].TG.TenTacGia, temp[i - 1].TenTacGia);
+				strcpy_s(TK[nTG].TG.TenTacGia, temp[i - 1].TenTacGia); // sao chép tên tác giả vào phần tử mảng thống kê
 				if (_strcmpi(temp[i].TenTacGia, temp[i - 1].TenTacGia) == 0)
 				{
 					TK[nTG].TG.SoLuong++;
 				}
-				if (_strcmpi(TK[nTG].TG.TenTacGia, temp[i].TenTacGia) != 0)
+				if (_strcmpi(TK[nTG].TG.TenTacGia, temp[i].TenTacGia) != 0) // nếu phần tử hiện tại của DS_Sach khác với phần tử của mảng thống kê thì tăng phần tử mảng thống kê lên 1 
 					nTG++;
 			}
 		}
@@ -654,6 +656,7 @@ int NamXB_Max_Sach(ThongKe TK[], int nNamXB)
 	}
 	return vitriMax;
 }
+#pragma region SetUpConsole
 void gotoXY(int column, int line)
 {
 	COORD coord;
@@ -694,3 +697,5 @@ void DisableResizeWindow()
 	HWND hWnd = GetConsoleWindow();
 	SetWindowLong(hWnd, GWL_STYLE, GetWindowLong(hWnd, GWL_STYLE) & ~WS_SIZEBOX);
 }
+#pragma endregion
+
