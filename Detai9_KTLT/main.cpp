@@ -8,7 +8,7 @@ int main()
 	DisableResizeWindow();
 	// để in ra được kí tự trong txt
 	SetConsoleOutputCP(65001);
-	//system("mode con: cols=209 lines=50");
+	system("mode con: cols=209 lines=50");
 	system("cls");
 #pragma endregion
 	int chon, x, y, vitriMax, n = 0, sapxep = 0;
